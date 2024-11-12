@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
@@ -17,11 +18,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,4 +39,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public static function generateUniqueUsername($name)
+    {
+        $baseUsername = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $name));
+        // Base username: convert name to a URL-friendly slug
+        $baseUsername = Str::slug($name);
+        $username = $baseUsername;
+        $counter = 1;
+
+        // Check if the username already exists and append a counter if necessary
+        while (self::where('username', $username)->exists()) {
+            $username = $baseUsername . $counter;
+            $counter++;
+        }
+
+        return $username;
+    }
 }

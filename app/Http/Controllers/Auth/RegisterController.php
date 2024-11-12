@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -29,6 +30,14 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        if (Auth()->user()->role == '1') {
+            return route('admin.dashboard');
+        } elseif (Auth()->user()->role == '2') {
+            return route('user.dashboard');
+        }
+    }
 
     /**
      * Create a new controller instance.
@@ -65,6 +74,8 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
+            'role' => UserRole::USER->value,
+            'username' => User::generateUniqueUsername($data['name']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

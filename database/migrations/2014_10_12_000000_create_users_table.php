@@ -1,4 +1,5 @@
 <?php
+
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use Illuminate\Support\Facades\Schema;
@@ -13,8 +14,7 @@ return new class extends Migration
 
             $table->id();
             $table->string('name');
-            $table->string('blood_group')->nullable();
-            $table->string('number')->nullable()->unique();
+            $table->string('username')->unique();
             $table->string('email')->nullable()->unique();
             $table->tinyInteger('role')->default(UserRole::USER->value);
             $table->tinyInteger('status')->default(UserStatus::ACTIVE->value);
