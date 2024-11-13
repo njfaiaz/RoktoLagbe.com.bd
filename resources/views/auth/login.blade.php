@@ -23,16 +23,17 @@
                     @csrf
                     <div class="col-md-12 form-group">
                         <input type="email" class="@error('email') border border-danger @enderror form-control"
-                            id="email" name="email" placeholder="Enter your email" value="{{ old('email') }}" />
+                            id="email" name="email" placeholder="Enter your email" value="{{ old('email') }}"
+                            required />
                         @if ($errors->has('email'))
-                            <span class="text-danger">{{ $errors->first('email') }}</span>
+                            <span class="text-danger float-left">{{ $errors->first('email') }}</span>
                         @endif
                     </div>
                     <div class="col-md-12 form-group">
                         <input type="Password" class="@error('password') border border-danger @enderror form-control"
                             id="password" name="password" placeholder="Password" />
-                        @if ($errors->has('email'))
-                            <span class="password">{{ $errors->first('password') }}</span>
+                        @if ($errors->has('password'))
+                            <span class="text-danger float-left">{{ $errors->first('password') }}</span>
                         @endif
                     </div>
                     <div class="col-md-12 form-group">
@@ -50,32 +51,4 @@
         </div>
     </div>
 
-    @push('footer_scripts')
-        <script>
-            $(document).ready(function() {
-                $("#input_form").validate({
-                    errorClass: "error fail-alert",
-                    validClass: "valid success-alert",
-                    rules: {
-                        email: {
-                            required: true,
-                            minlength: 3
-                        },
-                        password: {
-                            required: true,
-                            minlength: 8
-                        },
-                    },
-                    messages: {
-                        email: {
-                            required: "Please enter your email address"
-                        },
-                        password: {
-                            required: "Please enter your password",
-                        },
-                    }
-                });
-            });
-        </script>
-    @endpush
 @endsection

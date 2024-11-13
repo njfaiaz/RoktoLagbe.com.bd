@@ -108,9 +108,6 @@
     </section>
     <!--================End Login Box Area =================-->
 
-    <script src="{{ asset('assets/coustom/jquery.js') }}"></script>
-    <script src="{{ asset('assets/coustom/validate.js') }}"></script>
-    @stack('footer_scripts')
 </body>
 
 </html>
